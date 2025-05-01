@@ -1,0 +1,14 @@
+{
+  "editor.tabSize": 4,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "db",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "ReduMu-db-dev",
+      "username": "postgres",
+      "database": "redumu"
+    }
+  ]
+}

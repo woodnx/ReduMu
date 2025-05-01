@@ -1,0 +1,66 @@
+version: '3.9'
+
+tasks:
+  dev: 
+    dir: api
+    cmds:
+      - air -c .air.toml
+  
+  db:start:
+    cmds:
+      - docker-compose up -d db
+
+  api:
+    dir: api
+    cmds:
+      - go generate ./...
+      - go mod tidy
+      - go run ./cmd/server
+
+  mobile:dev:
+    dir: apps/mobile
+    cmds:
+      - expo start
+
+  web:dev:
+    dir: apps/web
+    cmds:
+      - npm run dev
+  
+  db:setup:
+    desc: "Init & migrate DB"
+    cmds:
+      - migrate -path ./api/sql/schema -database "$DATABASE_URL" drop -f
+      - migrate -path ./api/sql/schema -database "$DATABASE_URL" up
+      - go run ./api/cmd/migrate/main.go
+  
+  db:migrate:
+    desc: "Apply all up migrations"
+    dir: api
+    dotenv: ['.env', '{{.ENV}}/.env', '{{.HOME}}/.env']
+    cmds:
+      - migrate -path sql/migrations -database "$DATABASE_URL" up
+
+  db:migrate-down:
+    desc: "Rollback the last migration"
+    dir: api
+    dotenv: ['.env', '{{.ENV}}/.env', '{{.HOME}}/.env']
+    cmds:
+      - migrate -path sql/migrations -database "$DATABASE_URL" down 1
+
+  db:migrate-new:
+    desc: "Create a new migration file"
+    dir: api
+    cmds:
+      - |
+        if [ -z "{{.CLI_ARGS}}" ]; then
+          echo "⛔ Usage: task db:migrate-new -- name_of_migration"
+          exit 1
+        fi
+        migrate create -ext sql -dir sql/migrations -seq "{{.CLI_ARGS}}"
+
+  db:generate:
+    desc: "Generate Go code from SQL using sqlc"
+    dir: api
+    cmds:
+      - sqlc generate
