@@ -1,0 +1,29 @@
+ScheduledTask:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    title: 
+      type: string
+    status: 
+      type: string
+    since: 
+      type: string
+      format: date
+    until:
+      type: string
+      format: date
+    createdAt:
+      type: string
+      format: date
+    updatedAt:
+      type: string
+      format: date
+  required:
+    - id
+    - title
+    - status
+    - since 
+    - until
+    - createdAt

@@ -1,0 +1,25 @@
+TaskIdPath:
+  get: 
+    summary: Get a task
+    tags:
+      - task
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: 
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Task retrieved
+        content:
+          application/json:
+            schema: 
+              $ref: "../schemas/task.yml#/Task"
+      "default":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yml#/Error"

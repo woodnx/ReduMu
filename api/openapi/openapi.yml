@@ -1,0 +1,60 @@
+openapi: "3.0.0"
+info:
+  title: "User API"
+  version: "1.0.0"
+tags:
+  - name: actual
+  - name: schedule
+  - name: scheduled task
+  - name: task
+  - name: user
+paths:
+  /actuals:
+    $ref: "./paths/actuals.yml#/ActualsPath"
+
+  /actual/{id}:
+    $ref: "./paths/actual-id.yml#/ActualIdPath"
+
+  /schedules:
+    $ref: "./paths/schedules.yml#/SchedulesPath"
+
+  /schedule/{id}:
+    $ref: "./paths/schedule-id.yml#/ScheduleIdPath"
+  
+  /tasks:
+    $ref: "./paths/task.yml#/TaskPath"
+  
+  /task/{id}:
+    $ref: "./paths/task-id.yml#/TaskIdPath"
+  
+  /tasks/scheduled/:
+    $ref: "./paths/scheduled-task.yml#/ScheduledTaskPath"
+  
+  /tasks/scheduled/{id}:
+    $ref: "./paths/scheduled-task-id.yml#/ScheduledTaskIdPath"
+  
+  /users:
+    $ref: "./paths/users.yml#/UsersPath"
+  
+  /user/{id}:
+    $ref: "./paths/user-id.yml#/UserIdPath"
+  
+components:
+  schemas:
+    Actual:
+      $ref: "./schemas/actual.yml#/Actual"
+    
+    Error: 
+      $ref: "./schemas/error.yml#/Error"
+    
+    Schedule: 
+      $ref: "./schemas/schedule.yml#/Schedule"
+    
+    ScheduledTask:
+      $ref: "./schemas/scheduled-task.yml#/ScheduledTask"
+    
+    Task:
+      $ref: "./schemas/task.yml#/Task"
+    
+    User:
+      $ref: "./schemas/user.yml#/User"

@@ -1,0 +1,22 @@
+Task:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    title: 
+      type: string
+    deadline: 
+      type: string
+      format: date
+    createdAt:
+      type: string
+      format: date
+    updatedAt: 
+      type: string
+      format: date
+  required:
+    - id
+    - title
+    - deadline
+    - createdAt

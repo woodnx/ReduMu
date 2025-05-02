@@ -1,0 +1,29 @@
+Actual:
+  type: object
+  properties:
+    id: 
+      type: string
+      format: uuid
+    target:
+      type: array
+      items:
+        type: string
+        format: uuid
+    since: 
+      type: string
+      format: date
+    until:
+      type: string
+      format: date
+    createdAt:
+      type: string
+      format: date
+    updatedAt:
+      type: string
+      format: date
+  required:
+    - id
+    - target
+    - since 
+    - until
+    - createdAt

@@ -1,0 +1,25 @@
+ScheduledTaskIdPath:
+  get: 
+    summary: Get a scheduled tasks
+    tags:
+      - scheduled task
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200": 
+        description: A scheduled tasks
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/scheduled-task.yml#/ScheduledTask"
+      "default":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yml#/Error"

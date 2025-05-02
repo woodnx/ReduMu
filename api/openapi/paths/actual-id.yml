@@ -1,0 +1,25 @@
+ActualIdPath:
+  get: 
+    summary: Get an actual
+    tags:
+      - actual
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200": 
+        description: An actual
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/actual.yml#/Actual"
+      "default":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yml#/Error"

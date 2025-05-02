@@ -1,0 +1,25 @@
+ScheduleIdPath:
+  get: 
+    summary: Get a schedule
+    tags:
+      - schedule
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200": 
+        description: A schedule
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/schedule.yml#/Schedule"
+      "default":
+        description: unexpected error
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/error.yml#/Error"
