@@ -16,7 +16,8 @@ services:
       - EXPO_DEVTOOLS_LISTEN_PORT=19000
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/redumu?sslmode=disable
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: sleep infinity
     stdin_open: true
     tty: true
@@ -32,6 +33,12 @@ services:
     restart: unless-stopped
     volumes:
       - redumu_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB} || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s 
 
 volumes:
   redumu_data:
