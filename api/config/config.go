@@ -5,8 +5,13 @@ import (
 )
 
 type Config struct {
-	Env  string `env:"REDUMU_ENV" envDefault:"dev"`
-	Port int    `env:"PORT" envDefault:"61106"`
+	Env        string `env:"REDUMU_ENV" envDefault:"dev"`
+	Port       int    `env:"PORT" envDefault:"61106"`
+	DBHost     string `env:"DB_HOST" envDefault:"db"`
+	DBPort     int    `env:"DB_PORT" envDefault:"5432"`
+	DBUser     string `env:"DB_USER" envDefault:"postgres"`
+	DBPassword string `env:"DB_PASSWORD" envDefault:"postgres"`
+	DBName     string `env:"DB_NAME" envDefault:"redumu"`
 }
 
 func New() (*Config, error) {

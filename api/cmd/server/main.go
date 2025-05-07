@@ -33,7 +33,11 @@ func run(ctx context.Context) error {
 	url := fmt.Sprintf("http://%s", l.Addr().String())
 	log.Printf("start with: %v", url)
 
-	mux := NewMux()
-	s := NewServer(l, mux)
+	srv, cleanup, err := NewOgen(ctx, cfg)
+	if err != nil {
+		return err
+	}
+	defer cleanup()
+	s := NewServer(l, srv)
 	return s.Run(ctx)
 }
