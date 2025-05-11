@@ -11,14 +11,19 @@ import (
 	"github.com/woodnx/ReduMu/api/internal/domain/repository"
 )
 
+type taskRepository struct {
+	Clocker clock.Clocker
+	q       *db.Queries
+}
+
 func NewTaskInfra(sqldb *sql.DB) repository.ITaskRepo {
-	return &Repository{
+	return &taskRepository{
 		Clocker: clock.RealClocker{},
 		q:       db.New(sqldb),
 	}
 }
 
-func (r *Repository) GetAll(ctx context.Context) (model.Tasks, error) {
+func (r *taskRepository) GetAll(ctx context.Context) (model.Tasks, error) {
 	ts, err := r.q.GetAllTasks(ctx)
 	if err != nil {
 		return nil, err
@@ -36,7 +41,7 @@ func (r *Repository) GetAll(ctx context.Context) (model.Tasks, error) {
 	return tasks, nil
 }
 
-func (r *Repository) Create(ctx context.Context, t *model.Task) error {
+func (r *taskRepository) Create(ctx context.Context, t *model.Task) error {
 	t.Created = r.Clocker.Now()
 	t.Modified = r.Clocker.Now()
 	id := uuid.New()
@@ -56,6 +61,6 @@ func (r *Repository) Create(ctx context.Context, t *model.Task) error {
 	return nil
 }
 
-func (r *Repository) FindByID(ctx context.Context, id model.TaskID) (*model.Task, error) {
+func (r *taskRepository) FindByID(ctx context.Context, id model.TaskID) (*model.Task, error) {
 	return nil, nil
 }
