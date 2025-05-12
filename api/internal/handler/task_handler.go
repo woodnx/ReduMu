@@ -5,23 +5,12 @@ import (
 
 	"github.com/google/uuid"
 	api "github.com/woodnx/ReduMu/api/gen"
-	"github.com/woodnx/ReduMu/api/internal/usecase"
 )
 
-type TaskHander struct {
-	api.Handler
-	addTask  *usecase.AddTask
-	listTask *usecase.ListTask
-}
+func (h *Handler) TasksGet(ctx context.Context) ([]api.Task, error) {
+	h.mux.Lock()
+	defer h.mux.Unlock()
 
-func NewTaskHandler(at *usecase.AddTask, lt *usecase.ListTask) *TaskHander {
-	return &TaskHander{
-		addTask:  at,
-		listTask: lt,
-	}
-}
-
-func (h *TaskHander) TasksGet(ctx context.Context) ([]api.Task, error) {
 	ts, err := h.listTask.Exec(ctx)
 	if err != nil {
 		return nil, err
