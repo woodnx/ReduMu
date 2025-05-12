@@ -765,7 +765,9 @@ func (s *User) SetName(val string) {
 type UsersPostCreated struct{}
 
 type UsersPostReq struct {
-	Name string `json:"name"`
+	Name     string `json:"name"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
 }
 
 // GetName returns the value of Name.
@@ -773,7 +775,27 @@ func (s *UsersPostReq) GetName() string {
 	return s.Name
 }
 
+// GetPassword returns the value of Password.
+func (s *UsersPostReq) GetPassword() string {
+	return s.Password
+}
+
+// GetRole returns the value of Role.
+func (s *UsersPostReq) GetRole() string {
+	return s.Role
+}
+
 // SetName sets the value of Name.
 func (s *UsersPostReq) SetName(val string) {
 	s.Name = val
+}
+
+// SetPassword sets the value of Password.
+func (s *UsersPostReq) SetPassword(val string) {
+	s.Password = val
+}
+
+// SetRole sets the value of Role.
+func (s *UsersPostReq) SetRole(val string) {
+	s.Role = val
 }

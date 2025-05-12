@@ -30,8 +30,14 @@ UsersPath:
             properties:
               name: 
                 type: string
+              password:
+                type: string
+              role:
+                type: string
             required:
               - name
+              - password
+              - role
     responses:
       "201":
         description: User created
