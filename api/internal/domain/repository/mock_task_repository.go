@@ -9,40 +9,40 @@ import (
 	"sync"
 )
 
-// Ensure, that IUserRepoMock does implement IUserRepo.
+// Ensure, that ITaskRepoMock does implement ITaskRepo.
 // If this is not the case, regenerate this file with moq.
-var _ IUserRepo = &IUserRepoMock{}
+var _ ITaskRepo = &ITaskRepoMock{}
 
-// IUserRepoMock is a mock implementation of IUserRepo.
+// ITaskRepoMock is a mock implementation of ITaskRepo.
 //
-//	func TestSomethingThatUsesIUserRepo(t *testing.T) {
+//	func TestSomethingThatUsesITaskRepo(t *testing.T) {
 //
-//		// make and configure a mocked IUserRepo
-//		mockedIUserRepo := &IUserRepoMock{
-//			CreateFunc: func(ctx context.Context, user *model.User) error {
+//		// make and configure a mocked ITaskRepo
+//		mockedITaskRepo := &ITaskRepoMock{
+//			CreateFunc: func(ctx context.Context, task *model.Task) error {
 //				panic("mock out the Create method")
 //			},
-//			FindByIDFunc: func(ctx context.Context, id model.UserID) (*model.User, error) {
+//			FindByIDFunc: func(ctx context.Context, id model.TaskID) (*model.Task, error) {
 //				panic("mock out the FindByID method")
 //			},
-//			GetAllFunc: func(ctx context.Context) (model.Users, error) {
+//			GetAllFunc: func(ctx context.Context) (model.Tasks, error) {
 //				panic("mock out the GetAll method")
 //			},
 //		}
 //
-//		// use mockedIUserRepo in code that requires IUserRepo
+//		// use mockedITaskRepo in code that requires ITaskRepo
 //		// and then make assertions.
 //
 //	}
-type IUserRepoMock struct {
+type ITaskRepoMock struct {
 	// CreateFunc mocks the Create method.
-	CreateFunc func(ctx context.Context, user *model.User) error
+	CreateFunc func(ctx context.Context, task *model.Task) error
 
 	// FindByIDFunc mocks the FindByID method.
-	FindByIDFunc func(ctx context.Context, id model.UserID) (*model.User, error)
+	FindByIDFunc func(ctx context.Context, id model.TaskID) (*model.Task, error)
 
 	// GetAllFunc mocks the GetAll method.
-	GetAllFunc func(ctx context.Context) (model.Users, error)
+	GetAllFunc func(ctx context.Context) (model.Tasks, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -50,15 +50,15 @@ type IUserRepoMock struct {
 		Create []struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
-			// User is the user argument value.
-			User *model.User
+			// Task is the task argument value.
+			Task *model.Task
 		}
 		// FindByID holds details about calls to the FindByID method.
 		FindByID []struct {
 			// Ctx is the ctx argument value.
 			Ctx context.Context
 			// ID is the id argument value.
-			ID model.UserID
+			ID model.TaskID
 		}
 		// GetAll holds details about calls to the GetAll method.
 		GetAll []struct {
@@ -72,34 +72,34 @@ type IUserRepoMock struct {
 }
 
 // Create calls CreateFunc.
-func (mock *IUserRepoMock) Create(ctx context.Context, user *model.User) error {
+func (mock *ITaskRepoMock) Create(ctx context.Context, task *model.Task) error {
 	if mock.CreateFunc == nil {
-		panic("IUserRepoMock.CreateFunc: method is nil but IUserRepo.Create was just called")
+		panic("ITaskRepoMock.CreateFunc: method is nil but ITaskRepo.Create was just called")
 	}
 	callInfo := struct {
 		Ctx  context.Context
-		User *model.User
+		Task *model.Task
 	}{
 		Ctx:  ctx,
-		User: user,
+		Task: task,
 	}
 	mock.lockCreate.Lock()
 	mock.calls.Create = append(mock.calls.Create, callInfo)
 	mock.lockCreate.Unlock()
-	return mock.CreateFunc(ctx, user)
+	return mock.CreateFunc(ctx, task)
 }
 
 // CreateCalls gets all the calls that were made to Create.
 // Check the length with:
 //
-//	len(mockedIUserRepo.CreateCalls())
-func (mock *IUserRepoMock) CreateCalls() []struct {
+//	len(mockedITaskRepo.CreateCalls())
+func (mock *ITaskRepoMock) CreateCalls() []struct {
 	Ctx  context.Context
-	User *model.User
+	Task *model.Task
 } {
 	var calls []struct {
 		Ctx  context.Context
-		User *model.User
+		Task *model.Task
 	}
 	mock.lockCreate.RLock()
 	calls = mock.calls.Create
@@ -108,13 +108,13 @@ func (mock *IUserRepoMock) CreateCalls() []struct {
 }
 
 // FindByID calls FindByIDFunc.
-func (mock *IUserRepoMock) FindByID(ctx context.Context, id model.UserID) (*model.User, error) {
+func (mock *ITaskRepoMock) FindByID(ctx context.Context, id model.TaskID) (*model.Task, error) {
 	if mock.FindByIDFunc == nil {
-		panic("IUserRepoMock.FindByIDFunc: method is nil but IUserRepo.FindByID was just called")
+		panic("ITaskRepoMock.FindByIDFunc: method is nil but ITaskRepo.FindByID was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
-		ID  model.UserID
+		ID  model.TaskID
 	}{
 		Ctx: ctx,
 		ID:  id,
@@ -128,14 +128,14 @@ func (mock *IUserRepoMock) FindByID(ctx context.Context, id model.UserID) (*mode
 // FindByIDCalls gets all the calls that were made to FindByID.
 // Check the length with:
 //
-//	len(mockedIUserRepo.FindByIDCalls())
-func (mock *IUserRepoMock) FindByIDCalls() []struct {
+//	len(mockedITaskRepo.FindByIDCalls())
+func (mock *ITaskRepoMock) FindByIDCalls() []struct {
 	Ctx context.Context
-	ID  model.UserID
+	ID  model.TaskID
 } {
 	var calls []struct {
 		Ctx context.Context
-		ID  model.UserID
+		ID  model.TaskID
 	}
 	mock.lockFindByID.RLock()
 	calls = mock.calls.FindByID
@@ -144,9 +144,9 @@ func (mock *IUserRepoMock) FindByIDCalls() []struct {
 }
 
 // GetAll calls GetAllFunc.
-func (mock *IUserRepoMock) GetAll(ctx context.Context) (model.Users, error) {
+func (mock *ITaskRepoMock) GetAll(ctx context.Context) (model.Tasks, error) {
 	if mock.GetAllFunc == nil {
-		panic("IUserRepoMock.GetAllFunc: method is nil but IUserRepo.GetAll was just called")
+		panic("ITaskRepoMock.GetAllFunc: method is nil but ITaskRepo.GetAll was just called")
 	}
 	callInfo := struct {
 		Ctx context.Context
@@ -162,8 +162,8 @@ func (mock *IUserRepoMock) GetAll(ctx context.Context) (model.Users, error) {
 // GetAllCalls gets all the calls that were made to GetAll.
 // Check the length with:
 //
-//	len(mockedIUserRepo.GetAllCalls())
-func (mock *IUserRepoMock) GetAllCalls() []struct {
+//	len(mockedITaskRepo.GetAllCalls())
+func (mock *ITaskRepoMock) GetAllCalls() []struct {
 	Ctx context.Context
 } {
 	var calls []struct {
