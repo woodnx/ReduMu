@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../:/ReduMu:cached
+      - /var/run/docker.sock:/var/run/docker.sock # for testcontainer
     ports:
       - "19000:19000" # Expo
       - "19001:19001" # Expo development tools
@@ -15,9 +16,12 @@ services:
     environment:
       - EXPO_DEVTOOLS_LISTEN_PORT=19000
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/redumu?sslmode=disable
+      - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
     depends_on:
       db:
         condition: service_healthy
+    extra_hosts:
+      - 'host.docker.internal:host-gateway' # for testcontainer
     command: sleep infinity
     stdin_open: true
     tty: true
