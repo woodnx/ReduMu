@@ -1,0 +1,16 @@
+[
+    {
+        "id":        "93fa7c3e-322e-5cb5-1158-5696ff2ff9ce",
+        "title":     "Task 1",
+        "deadline":  "2022-05-11T12:34:56Z",
+        "createdAt": "2022-05-10T12:34:56Z",
+        "updatedAt": "2022-05-10T12:34:56Z"
+    },
+    {
+        "id":        "e09c18b9-fe14-5128-0b38-c264acd00544",
+        "title":     "Task 2",
+        "deadline":  "2022-05-13T12:34:56Z",
+        "createdAt": "2022-05-10T12:34:56Z",
+        "updatedAt": "2022-05-10T12:34:56Z"
+    }
+]
