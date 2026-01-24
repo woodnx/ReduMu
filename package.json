@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@photonjs/hono": "^0.1.12",
-    "@universal-middleware/core": "^0.4.15",
+    "@universal-middleware/core": "^0.4.16",
     "better-sqlite3": "^12.6.2",
     "dotenv": "^17.2.3",
-    "hono": "^4.11.4",
+    "hono": "^4.11.5",
     "kysely": "^0.28.10",
     "vike": "^0.4.252",
     "vike-photon": "^0.1.24",
