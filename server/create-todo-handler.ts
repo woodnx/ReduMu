@@ -1,13 +1,48 @@
-import type { dbKysely } from "../database/kysely/db";
-import * as kyselyQueries from "../database/kysely/queries/todos";
 import { enhance, type UniversalHandler } from "@universal-middleware/core";
+import { z } from "zod";
+import type { DatabaseClient } from "../db/client";
 
-export const createTodoHandler: UniversalHandler<Universal.Context & { db: ReturnType<typeof dbKysely> }> = enhance(
-  async (request, _context, _runtime) => {
-    // In a real case, user-provided data should ALWAYS be validated with tools like zod
-    const newTodo = (await request.json()) as { text: string };
+// Zodスキーマ定義: textは必須で、かつ1文字以上
+const CreateTodoSchema = z.object({
+  text: z.string().min(1, "Text is required"),
+});
 
-    await kyselyQueries.insertTodo(_context.db, newTodo.text);
+// コンテキストの型定義: db が注入されていることを保証
+type ContextWithDb = Universal.Context & {
+  db: DatabaseClient;
+};
+
+export const createTodoHandler: UniversalHandler<ContextWithDb> = enhance(
+  async (request, context, _runtime) => {
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid JSON" }), {
+        status: 400,
+      });
+    }
+
+    const result = CreateTodoSchema.safeParse(body);
+
+    if (!result.success) {
+      return new Response(
+        JSON.stringify({
+          error: "Validation Failed",
+          details: result.error.flatten(),
+        }),
+        {
+          status: 400,
+          headers: { "content-type": "application/json" },
+        },
+      );
+    }
+
+    // ここで newTodo は { text: string } 型として保証される
+    const newTodo = result.data;
+
+    // いずれ書く
+    // await kyselyQueries.insertTodo(context.db, newTodo.text);
 
     return new Response(JSON.stringify({ status: "OK" }), {
       status: 200,
@@ -16,5 +51,10 @@ export const createTodoHandler: UniversalHandler<Universal.Context & { db: Retur
       },
     });
   },
-  { name: "my-app:todo-handler", path: `/api/todo/create`, method: ["GET", "POST"], immutable: false },
+  {
+    name: "my-app:todo-handler",
+    path: `/api/todo/create`,
+    method: ["POST"],
+    immutable: false,
+  },
 );

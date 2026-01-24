@@ -1,4 +1,4 @@
-import type { dbKysely } from "./database/kysely/db";
+import type { dbKysely } from "./db/client";
 
 declare global {
   namespace Vike {
