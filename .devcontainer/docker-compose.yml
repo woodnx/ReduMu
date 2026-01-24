@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/javascript-node:24
+    volumes:
+      # カレントディレクトリをコンテナ内のワークスペースにマウント
+      - ..:/workspaces/redumu:cached
+    
+    # 開発中はコンテナが落ちないように待機させる
+    command: sleep infinity
+
+    # ネットワーク設定（DBと通信するため）
+    networks:
+      - redumu-network
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: redumu
+      POSTGRES_PASSWORD: redumu
+      POSTGRES_DB: redumu
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - redumu-network
+
+volumes:
+  postgres-data:
+
+networks:
+  redumu-network:

@@ -1,3 +1,6 @@
+ignoredBuiltDependencies:
+  - esbuild
+
 onlyBuiltDependencies:
-  - "@biomejs/biome"
+  - '@biomejs/biome'
   - better-sqlite3

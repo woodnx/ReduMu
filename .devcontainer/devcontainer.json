@@ -1,0 +1,35 @@
+{
+  "name": "Redumu",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/Redumu",
+
+  // コンテナ作成後に実行するコマンド
+  // 依存関係のインストールを自動化します
+  "postCreateCommand": "corepack enable && pnpm install",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "brillout.vike", 
+        "mhutchie.git-graph",
+        "github.vscode-github-actions",
+        "vitest.explorer",
+        "vue.volar",
+        "prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "cweijan.vscode-postgresql-client2" 
+      ]
+    }
+  },
+
+  // ポートフォワーディング設定
+  // 3000: Vike (Vite)
+  // 5432: PostgreSQL (ホスト側からDBクライアントで接続したい場合)
+  "forwardPorts": [3000, 5432],
+
+  // コンテナのユーザー設定（Nodeイメージのデフォルトユーザー）
+  "remoteUser": "node"
+}
