@@ -1,4 +1,6 @@
 {
+  "name": "plactive",
+  "version": "0.0.0",
   "scripts": {
     "dev": "vike dev",
     "build": "vike build",
