@@ -7,7 +7,7 @@
     "preview": "vike build && vike preview",
     "lint": "biome lint --write .",
     "format": "biome format --write .",
-    "kysely:migrate": "tsx ./database/kysely/migrate.ts",
+    "migrate": "prisma migrate dev",
     "prod": "vike build && node ./dist/server/index.mjs"
   },
   "dependencies": {
