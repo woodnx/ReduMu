@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { dbMiddleware } from "./db-middleware";
 import { createTodoHandler } from "./create-todo-handler";
 import { apply, serve } from "@photonjs/hono";
