@@ -1,13 +1,9 @@
 {
-  "name": "Redumu",
+  "name": "Plactive Dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
-  "workspaceFolder": "/workspaces/Redumu",
-
-  // コンテナ作成後に実行するコマンド
-  // 依存関係のインストールを自動化します
+  "workspaceFolder": "/workspaces/Plactive",
   "postCreateCommand": "corepack enable && pnpm install",
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -25,11 +21,8 @@
     }
   },
 
-  // ポートフォワーディング設定
-  // 3000: Vike (Vite)
-  // 5432: PostgreSQL (ホスト側からDBクライアントで接続したい場合)
+  // 3000: app
+  // 5432: PostgreSQL
   "forwardPorts": [3000, 5432],
-
-  // コンテナのユーザー設定（Nodeイメージのデフォルトユーザー）
   "remoteUser": "node"
 }

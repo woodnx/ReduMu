@@ -1,6 +1,8 @@
 ignoredBuiltDependencies:
-  - esbuild
 
 onlyBuiltDependencies:
   - '@biomejs/biome'
-  - better-sqlite3
+  - '@prisma/engines'
+  - esbuild
+  - prisma
+  

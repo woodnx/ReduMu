@@ -6,10 +6,110 @@
 
 generator kysely {
   provider = "prisma-kysely"
-  output   = "../src/db/types"
+  output   = "../db"
   fileName = "types.ts"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum ScheduleStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum ActivityLogType {
+  POMODORO
+  MANUAL
+  STOPWATCH
+  FREE
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String?
+  password     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  schedules    Schedule[]
+  goals        Goal[]
+  activityLogs ActivityLog[]
+}
+
+model Schedule {
+  id          String         @id @default(uuid())
+  userId      String
+  goalId      String?
+  title       String
+  description String?
+  status      ScheduleStatus @default(TODO)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  timezone    String
+
+  user         User          @relation(fields: [userId], references: [id])
+  tasks        Task[]
+  events       Event[]
+  activityLogs ActivityLog[]
+  goal         Goal?         @relation(fields: [goalId], references: [id])
+}
+
+// タスク（Todoリスト）
+model Task {
+  id                String   @id
+  deadlineAt        DateTime // 締め切り日時
+  estimatedDuration Int // 見積もり時間（分）
+  recurrenceRule    String?
+  parentId          String? // 繰り返しタスクの管理用．nullなら単発，あるいは繰り返しの親．今日分として生成されたタスクなら親のIDが入る
+  children          Task[]   @relation("TaskHistory")
+
+  parentTask Task?    @relation("TaskHistory", fields: [parentId], references: [id])
+  schedule   Schedule @relation(fields: [id], references: [id])
+}
+
+// イベント（カレンダー上の決まった予定）
+model Event {
+  id              String   @id
+  startAt         DateTime
+  endAt           DateTime
+  isAllDay        Boolean  @default(false)
+  recurrenceRule  String?
+  originalEventId String?
+  exceptionEvents Event[]  @relation("EventHistory")
+
+  originalEvent Event?   @relation("EventHistory", fields: [originalEventId], references: [id])
+  schedule      Schedule @relation(fields: [id], references: [id])
+}
+
+model Goal {
+  id          String     @id @default(uuid())
+  userId      String
+  title       String
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  parentId    String?
+  children    Goal[]     @relation("GoalHierarchy")
+  schedules   Schedule[]
+
+  user User? @relation(fields: [userId], references: [id])
+  goal Goal? @relation("GoalHierarchy", fields: [parentId], references: [id])
+}
+
+model ActivityLog {
+  id         String          @id @default(cuid())
+  userId     String
+  startAt    DateTime // 開始時刻
+  endAt      DateTime // 終了時刻（記録完了時に入る）
+  duration   Int // 実働時間（分）
+  type       ActivityLogType // ログの種類（ポモドーロ, 手動入力, ストップウォッチなど）
+  scheduleId String
+  note       String? // 実施後の感想など
+  createdAt  DateTime        @default(now())
+
+  user     User     @relation(fields: [userId], references: [id])
+  schedule Schedule @relation(fields: [scheduleId], references: [id])
 }

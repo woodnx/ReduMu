@@ -1,7 +1,6 @@
-import "dotenv/config";
 import { Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
-import type { DB } from "../../prisma/types";
+import type { DB } from "./types";
 
 export const db = new Kysely<DB>({
   dialect: new PostgresDialect({
@@ -12,5 +11,4 @@ export const db = new Kysely<DB>({
   }),
 });
 
-// 型推論用のヘルパー型
 export type DatabaseClient = Kysely<DB>;
